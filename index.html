@@ -21,7 +21,7 @@
         }
 
         .text {
-            font-size: 3em;
+            font-size: 5vw; /* Basis-Schriftgröße proportional zur Viewport-Breite */
             color: #040f16;
             text-transform: uppercase;
             font-weight: bold;
@@ -33,119 +33,58 @@
             text-shadow: 3px 3px 5px rgba(255, 0, 0, 0.5); /* Roter Schatten für "Wut" */
         }
 
-        /* Diagonale Speedlines (4 Striche in alle Richtungen) */
-        .text::before,
-        .text::after,
-        .text span::before,
-        .text span::after {
-            content: '';
-            position: absolute;
-            background: #040f16;
-            opacity: 0;
-            animation: speedLines 5s ease-in-out forwards;
-        }
-
-        .text::before {
-            width: 80px;
-            height: 4px;
-            top: 0;
-            left: -40px;
-            transform: rotate(45deg); /* Diagonale Linie (oben links) */
-        }
-
-        .text::after {
-            width: 80px;
-            height: 4px;
-            bottom: 0;
-            right: -40px;
-            transform: rotate(45deg); /* Diagonale Linie (unten rechts) */
-        }
-
-        .text span::before {
-            width: 80px;
-            height: 4px;
-            top: 0;
-            right: -40px;
-            transform: rotate(-45deg); /* Diagonale Linie (oben rechts) */
-        }
-
-        .text span::after {
-            width: 80px;
-            height: 4px;
-            bottom: 0;
-            left: -40px;
-            transform: rotate(-45deg); /* Diagonale Linie (unten links) */
-        }
-
         @keyframes angryText {
             0% {
-                font-size: 12em; /* Doppelt so groß wie 6em */
+                font-size: 10vw; /* Doppelt so groß wie 5vw */
                 transform: scale(1) rotate(0deg);
                 opacity: 0;
             }
             10% {
-                font-size: 12em;
+                font-size: 10vw;
                 transform: scale(1.1) rotate(2deg); /* Ruckartiges Zittern */
                 opacity: 1;
             }
             20% {
-                font-size: 12em;
+                font-size: 10vw;
                 transform: scale(1) rotate(-2deg); /* Ruckartiges Zittern */
             }
             30% {
-                font-size: 12em;
+                font-size: 10vw;
                 transform: scale(1.1) rotate(2deg); /* Ruckartiges Zittern */
             }
             40% {
-                font-size: 12em;
+                font-size: 10vw;
                 transform: scale(1) rotate(-2deg); /* Ruckartiges Zittern */
             }
             50% {
-                font-size: 10em;
+                font-size: 8vw;
                 transform: scale(1.05) rotate(1deg);
             }
             70% {
-                font-size: 6em;
+                font-size: 6vw;
                 transform: scale(1) rotate(-1deg);
             }
             100% {
-                font-size: 3em; /* Endgröße wie ursprünglich */
+                font-size: 5vw; /* Endgröße */
                 transform: scale(1) rotate(0deg);
                 opacity: 1;
             }
         }
 
-        @keyframes speedLines {
-            0% {
-                opacity: 0;
-                width: 0;
-            }
-            20% {
-                opacity: 1;
-                width: 80px; /* Striche erscheinen */
-            }
-            80% {
-                opacity: 1;
-                width: 80px;
-            }
-            100% {
-                opacity: 0; /* Striche verschwinden */
-                width: 0;
-            }
-        }
-
         .image {
-            width: 300px;
-            height: 200px;
-            background-color: #040f16;
+            width: 60vw; /* Vergrößert von 50vw */
+            max-width: 400px; /* Vergrößert von 300px */
+            height: 40vw; /* Vergrößert von 33vw */
+            max-height: 266px; /* Vergrößert von 200px */
             border-radius: 10px;
             margin-bottom: 20px;
             z-index: 2; /* Über dem Konfetti */
+            object-fit: cover; /* Bild wird skaliert, um den Container zu füllen */
         }
 
         .button {
-            padding: 15px 30px;
-            font-size: 1.2em;
+            padding: 1.5vw 3vw; /* Verkleinert von 2vw 4vw */
+            font-size: 2vw; /* Verkleinert von 2.5vw */
             font-family: 'Rubik', sans-serif;
             text-decoration: none;
             background-color: #040f16;
@@ -158,6 +97,56 @@
         .button:hover {
             background-color: #2e2e2e;
             transform: scale(1.05);
+        }
+
+        /* Media Query für kleinere Bildschirme (Feinjustierung) */
+        @media (max-width: 600px) {
+            .text {
+                font-size: 8vw; /* Etwas größer auf kleinen Bildschirmen */
+            }
+
+            @keyframes angryText {
+                0% {
+                    font-size: 16vw; /* Doppelt so groß wie 8vw */
+                    transform: scale(1) rotate(0deg);
+                    opacity: 0;
+                }
+                10% {
+                    font-size: 16vw;
+                    transform: scale(1.1) rotate(2deg);
+                    opacity: 1;
+                }
+                20% {
+                    font-size: 16vw;
+                    transform: scale(1) rotate(-2deg);
+                }
+                30% {
+                    font-size: 16vw;
+                    transform: scale(1.1) rotate(2deg);
+                }
+                40% {
+                    font-size: 16vw;
+                    transform: scale(1) rotate(-2deg);
+                }
+                50% {
+                    font-size: 12vw;
+                    transform: scale(1.05) rotate(1deg);
+                }
+                70% {
+                    font-size: 10vw;
+                    transform: scale(1) rotate(-1deg);
+                }
+                100% {
+                    font-size: 8vw; /* Endgröße */
+                    transform: scale(1) rotate(0deg);
+                    opacity: 1;
+                }
+            }
+
+            .button {
+                font-size: 3.5vw; /* Verkleinert von 4vw */
+                padding: 2.5vw 5vw; /* Verkleinert von 3vw 6vw */
+            }
         }
 
         /* Erster Konfetti-Code (von oben mit Blinken) */
@@ -368,7 +357,7 @@
 </head>
 <body>
     <div class="text"><span>Happy Birthday</span></div>
-    <div class="Happy Birthday.png"></div>
+    <img src="Happy Birthday.png" class="image" alt="Happy Birthday">
     <a href="sortiment.html" class="button">Sortiment</a>
 
     <!-- Container für das erste Konfetti (von oben mit Blinken) -->
