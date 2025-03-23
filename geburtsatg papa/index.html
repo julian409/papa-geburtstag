@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&display=swap" rel="stylesheet">
+    <!-- jQuery einbinden -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Rubik', sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .text {
+            font-size: 3em;
+            color: #040f16;
+            text-transform: uppercase;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+            z-index: 2; /* Über dem Konfetti */
+            position: relative;
+            animation: angryText 5s ease-in-out forwards; /* Anime-Wut-Animation */
+            text-shadow: 3px 3px 5px rgba(255, 0, 0, 0.5); /* Roter Schatten für "Wut" */
+        }
+
+        /* Diagonale Speedlines (4 Striche in alle Richtungen) */
+        .text::before,
+        .text::after,
+        .text span::before,
+        .text span::after {
+            content: '';
+            position: absolute;
+            background: #040f16;
+            opacity: 0;
+            animation: speedLines 5s ease-in-out forwards;
+        }
+
+        .text::before {
+            width: 80px;
+            height: 4px;
+            top: 0;
+            left: -40px;
+            transform: rotate(45deg); /* Diagonale Linie (oben links) */
+        }
+
+        .text::after {
+            width: 80px;
+            height: 4px;
+            bottom: 0;
+            right: -40px;
+            transform: rotate(45deg); /* Diagonale Linie (unten rechts) */
+        }
+
+        .text span::before {
+            width: 80px;
+            height: 4px;
+            top: 0;
+            right: -40px;
+            transform: rotate(-45deg); /* Diagonale Linie (oben rechts) */
+        }
+
+        .text span::after {
+            width: 80px;
+            height: 4px;
+            bottom: 0;
+            left: -40px;
+            transform: rotate(-45deg); /* Diagonale Linie (unten links) */
+        }
+
+        @keyframes angryText {
+            0% {
+                font-size: 12em; /* Doppelt so groß wie 6em */
+                transform: scale(1) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                font-size: 12em;
+                transform: scale(1.1) rotate(2deg); /* Ruckartiges Zittern */
+                opacity: 1;
+            }
+            20% {
+                font-size: 12em;
+                transform: scale(1) rotate(-2deg); /* Ruckartiges Zittern */
+            }
+            30% {
+                font-size: 12em;
+                transform: scale(1.1) rotate(2deg); /* Ruckartiges Zittern */
+            }
+            40% {
+                font-size: 12em;
+                transform: scale(1) rotate(-2deg); /* Ruckartiges Zittern */
+            }
+            50% {
+                font-size: 10em;
+                transform: scale(1.05) rotate(1deg);
+            }
+            70% {
+                font-size: 6em;
+                transform: scale(1) rotate(-1deg);
+            }
+            100% {
+                font-size: 3em; /* Endgröße wie ursprünglich */
+                transform: scale(1) rotate(0deg);
+                opacity: 1;
+            }
+        }
+
+        @keyframes speedLines {
+            0% {
+                opacity: 0;
+                width: 0;
+            }
+            20% {
+                opacity: 1;
+                width: 80px; /* Striche erscheinen */
+            }
+            80% {
+                opacity: 1;
+                width: 80px;
+            }
+            100% {
+                opacity: 0; /* Striche verschwinden */
+                width: 0;
+            }
+        }
+
+        .image {
+            width: 300px;
+            height: 200px;
+            background-color: #040f16;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            z-index: 2; /* Über dem Konfetti */
+        }
+
+        .button {
+            padding: 15px 30px;
+            font-size: 1.2em;
+            font-family: 'Rubik', sans-serif;
+            text-decoration: none;
+            background-color: #040f16;
+            color: #fff;
+            border-radius: 25px;
+            transition: background-color 0.3s, transform 0.3s;
+            z-index: 2; /* Über dem Konfetti */
+        }
+
+        .button:hover {
+            background-color: #2e2e2e;
+            transform: scale(1.05);
+        }
+
+        /* Erster Konfetti-Code (von oben mit Blinken) */
+        #confetti {
+            left: 0;
+            position: fixed;
+            right: 0;
+            top: -160px;
+            z-index: 1; /* Unter den anderen Elementen */
+        }
+
+        #confetti .ball {
+            animation-iteration-count: infinite !important;
+            -webkit-animation-iteration-count: infinite !important;
+            border-radius: 50%;
+            cursor: default;
+            display: inline-block;
+            height: 10px;
+            user-select: none;
+            -webkit-user-select: none;
+            width: 10px;
+        }
+
+        @-webkit-keyframes falling-left {
+            0% {
+                -webkit-transform: translate3d(0, 0, 0);
+                opacity: 1;
+            }
+            10% {
+                opacity: 0;
+            }
+            20% {
+                opacity: 1;
+            }
+            30% {
+                opacity: 0;
+            }
+            40% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0;
+            }
+            60% {
+                opacity: 1;
+            }
+            70% {
+                opacity: 0;
+            }
+            80% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 0;
+            }
+            100% {
+                -webkit-transform: translate3d(0, 120vh, 0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes falling-left {
+            0% {
+                transform: translate3d(0, 0, 0);
+                opacity: 1;
+            }
+            10% {
+                opacity: 0;
+            }
+            20% {
+                opacity: 1;
+            }
+            30% {
+                opacity: 0;
+            }
+            40% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0;
+            }
+            60% {
+                opacity: 1;
+            }
+            70% {
+                opacity: 0;
+            }
+            80% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 0;
+            }
+            100% {
+                transform: translate3d(0, 120vh, 0);
+                opacity: 1;
+            }
+        }
+
+        #confetti .ball:nth-child(2n) {
+            -webkit-animation: falling-left linear;
+            animation: falling-left linear;
+        }
+
+        @-webkit-keyframes falling-right {
+            0% {
+                -webkit-transform: translate3d(0, 0, 0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            20% {
+                opacity: 0;
+            }
+            30% {
+                opacity: 1;
+            }
+            40% {
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            60% {
+                opacity: 0;
+            }
+            70% {
+                opacity: 1;
+            }
+            80% {
+                opacity: 0;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                -webkit-transform: translate3d(0, 120vh, 0);
+                opacity: 0;
+            }
+        }
+
+        @keyframes falling-right {
+            0% {
+                transform: translate3d(0, 0, 0);
+                opacity: 1;
+            }
+            10% {
+                opacity: 0;
+            }
+            20% {
+                opacity: 1;
+            }
+            30% {
+                opacity: 0;
+            }
+            40% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0;
+            }
+            60% {
+                opacity: 1;
+            }
+            70% {
+                opacity: 0;
+            }
+            80% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 0;
+            }
+            100% {
+                transform: translate3d(0, 120vh, 0);
+                opacity: 0;
+            }
+        }
+
+        #confetti .ball:nth-of-type(2n+1) {
+            -webkit-animation: falling-right linear;
+            animation: falling-right linear;
+        }
+
+        /* Zweiter Konfetti-Code (von links/rechts) */
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #040f16;
+            border-radius: 50%;
+            animation: fall 3s linear infinite;
+            z-index: 1; /* Unter den anderen Elementen */
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-100vh);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="text"><span>Happy Birthday</span></div>
+    <div class="Happy Birthday.png"></div>
+    <a href="sortiment.html" class="button">Sortiment</a>
+
+    <!-- Container für das erste Konfetti (von oben mit Blinken) -->
+    <div id="confetti"></div>
+
+    <script>
+        // Erste Konfetti-Animation (von oben mit Blinken)
+        jQuery("document").ready(function($) {
+            var flakes = '',
+                randomColor;
+            for (var i = 0, len = 400; i < len; i++) {
+                randomColor = Math.floor(Math.random() * 16777215).toString(16);
+                flakes += '<div class="ball" style="background: #' + randomColor;
+                flakes += '; animation-duration: ' + (Math.random() * 9 + 2) + 's; animation-delay: ';
+                flakes += (Math.random() * 2 + 0) + 's;"></div>';
+            }
+            document.getElementById('confetti').innerHTML = flakes;
+        });
+
+        // Zweite Konfetti-Animation (von links/rechts)
+        function createConfetti() {
+            const confetti = document.createElement('div');
+            confetti.className = 'confetti';
+            const startX = Math.random() < 0.5 ? -10 : window.innerWidth + 10;
+            confetti.style.left = `${startX}px`;
+            confetti.style.top = `${-Math.random() * 100}px`;
+            confetti.style.animationDuration = `${Math.random() * 2 + 2}s`;
+            confetti.style.backgroundColor = Math.random() < 0.5 ? '#040f16' : '#fff';
+            document.body.appendChild(confetti);
+
+            setTimeout(() => confetti.remove(), 3000);
+        }
+
+        // Konfetti unendlich erzeugen
+        setInterval(createConfetti, 100);
+    </script>
+</body>
+</html>
